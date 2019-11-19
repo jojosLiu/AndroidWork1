@@ -77,8 +77,8 @@ public class Base1Activity extends Activity {
 //                          如果设备策略禁止应用拥有这条权限, 这个方法也返回false.
                         // 弹窗需要解释为何需要该权限，再次请求授权
                         Toast.makeText(Base1Activity.this, "请授权！", Toast.LENGTH_LONG).show();
-                        // 帮跳转到该应用的设置界面，让用户手动授权
                         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        // 帮跳转到该应用的设置界面，让用户手动授权
                         Uri uri = Uri.fromParts("package", getPackageName(), null);
                         intent.setData(uri);
                         startActivity(intent);
@@ -88,13 +88,13 @@ public class Base1Activity extends Activity {
                                 new String[]{Manifest.permission.CALL_PHONE},
                                 MY_PERMISSIONS_REQUEST_CALL_PHONE);
                     }
-                }else
+                }else    //已经获得授权
                     {
                         builder.setPositiveButton("拨打", new OnClickListener() {   //确认拨打的监听事件
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent();
-                                intent.setAction(Intent.ACTION_CALL);
+                                intent.setAction(Intent.ACTION_CALL);        // 直接拨打电话uri
                                 intent.setData(Uri.parse("tel:" + number));
                                 startActivity(intent);
                             }
@@ -184,7 +184,7 @@ public class Base1Activity extends Activity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) { //上下文菜单实现监听
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();   //应用程序需要知道View条目的中的信息
         String name = totalList.get(info.position).get("username").toString();
         String number = totalList.get(info.position).get("phonenumber").toString();
         final String _id = totalList.get(info.position).get("_id").toString();  //获取要操作的id
@@ -259,7 +259,7 @@ public class Base1Activity extends Activity {
 
     public void clickButton(View view) {
         lv_main.setSelection(0);
-    }
+    }    //到达顶部
 
     protected void toast(String string) {
         Toast.makeText(Base1Activity.this, string, Toast.LENGTH_LONG).show();
