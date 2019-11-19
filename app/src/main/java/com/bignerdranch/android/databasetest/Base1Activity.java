@@ -41,19 +41,25 @@ public class Base1Activity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);    //调用父类的OnCreate()方法，AS自动生成的
+        super.onCreate(savedInstanceState);    //调用父类的OnCreate()方法，保存失去焦点时的状态
         setContentView(R.layout.activity_base1);           //传入activity_base1布局
         dbHelper = new MySQLiteOpenHelper(this);
-        lv_main = (ListView) findViewById(R.id.listView_main);
+        lv_main = (ListView) findViewById(R.id.listView_main);       //遍历
         emptyText = (TextView) findViewById(R.id.textView_empty);
-        totalList = getcontent();  //检索所有条目
+        totalList = getcontent();  //检索所有条目，准备数据源
 
         adapter = new SimpleAdapter(this, totalList, R.layout.item_listview_main,
                 new String[] { "phonenumber", "username" },
                 new int[] { R.id.textView_item_phonenumber, R.id.textView_item_username });
+//        第一个参数：上下文对象
+//        第二个参数：数据源是含有Map的一个集合
+//        第三个参数：每一个item的布局文件
+//        第四个参数：new String[]{}数组，数组的里面的每一项要与第二个参数中的存入map集合的的key值一样，一一对应
+//        第五个参数：new int[]{}数组，数组里面的第三个参数中的item里面的控件id
+
         lv_main.setAdapter(adapter);    //给listview设置adapter数据适配器
-        lv_main.setEmptyView(emptyText);
-        registerForContextMenu(lv_main);   //注册菜单
+        lv_main.setEmptyView(emptyText);   //提示视图
+        registerForContextMenu(lv_main);   //注册上下文菜单
 //在6.0版本之后即使加入权限也会崩溃 存在动态权限获取问题
         lv_main.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -107,7 +113,7 @@ public class Base1Activity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);            //得到MenuInflater对象，再调用它的inflate()方法就可以给当前的活动创建菜单
-        //（指定通过哪一个资源文件来创建菜单，指定我们的菜单项将添加到哪一个Menu对象当中）
+        //（指定通过哪一个资源文件来创建菜单，指定菜单项将添加到哪一个Menu对象当中）
         return true;        //返回true，表示允许创建的菜单显示出来
     }
 
@@ -199,7 +205,7 @@ public class Base1Activity extends Activity {
                     }
                 });
                 builder_dele.show();
-                break;
+            break;
 
             case R.id.action_update:
                 Builder builder_update = createAlertDialog(android.R.drawable.ic_dialog_alert, "修改联系人信息");
