@@ -41,8 +41,8 @@ public class Base1Activity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base1);
+        super.onCreate(savedInstanceState);    //调用父类的OnCreate()方法，AS自动生成的
+        setContentView(R.layout.activity_base1);           //传入activity_base1布局
         dbHelper = new MySQLiteOpenHelper(this);
         lv_main = (ListView) findViewById(R.id.listView_main);
         emptyText = (TextView) findViewById(R.id.textView_empty);
@@ -106,13 +106,14 @@ public class Base1Activity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.main, menu);            //得到MenuInflater对象，再调用它的inflate()方法就可以给当前的活动创建菜单
+        //（指定通过哪一个资源文件来创建菜单，指定我们的菜单项将添加到哪一个Menu对象当中）
+        return true;        //返回true，表示允许创建的菜单显示出来
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {    //主界面标题菜单栏监听
-        switch (item.getItemId()) {
+        switch (item.getItemId()) {             //item.getItemId()判断点击的是哪一个菜单项
             case R.id.action_insert:
                 Builder builder_insert = createAlertDialog(android.R.drawable.ic_dialog_alert, "添加联系人信息");
                 View view = getLayoutInflater().inflate(R.layout.dialog_insert, null);
